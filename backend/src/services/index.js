@@ -7,6 +7,7 @@ import { deleteUser } from "./deleteUser.js";
 import { getOneUser } from "./getOneUser.js";
 import { getAllUsers } from "./getAllUsers.js";
 import { postTweet } from "./postTweet.js";
+import { deleteTweet } from "./deleteTweet.js";
 
 export const UserService = {
   registerUser,
@@ -20,5 +21,6 @@ export const UserService = {
 };
 
 export const TweetService = {
-  postTweet
+  postTweet,
+  deleteTweet
 }

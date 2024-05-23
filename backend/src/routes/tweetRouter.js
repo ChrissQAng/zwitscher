@@ -5,4 +5,5 @@ import { doJwtAuth } from "../middlewares/doJwtAuth.js";
 
 export const tweetRouter = express
   .Router()
-  .post("/", doJwtAuth, TweetController.postTweetCtrl);
+  .post("/", doJwtAuth, TweetController.postTweetCtrl)
+  .delete("/:tweetId", doJwtAuth, TweetController.deleteTweetCtrl);
