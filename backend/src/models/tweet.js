@@ -4,7 +4,7 @@ const tweetSchema = new mongoose.Schema(
   {
     text: { type: String, required: true },
     userId: { type: mongoose.Types.ObjectId, ref: "users", required: true },
-    // commentsId: [{ type: String }],
+    commentsId: [{ type: String }], // Ahmed delete
   },
   { collection: "tweets", timestamps: true }
 );
