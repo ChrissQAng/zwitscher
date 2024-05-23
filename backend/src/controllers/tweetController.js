@@ -16,8 +16,8 @@ async function postTweetCtrl(req, res) {
 async function deleteTweetCtrl(req, res) {
   try {
     const tweetId = req.params.tweetId;
-
-    const deletedTweet = await TweetService.deleteTweet(tweetId);
+    const userIdLogin = req.authenticatedUserId 
+    const deletedTweet = await TweetService.deleteTweet(tweetId, userIdLogin);
     res.json(deletedTweet);
   } catch (err) {
     console.log(err);

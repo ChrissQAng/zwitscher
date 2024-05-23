@@ -1,21 +1,23 @@
 import { Tweet } from "../models/tweet.js";
-import { User } from "../models/user.js";
+import { Comment } from "../models/comment.js";
 
-export async function deleteTweet(tweetId) {
+export async function deleteTweet(tweetId, userIdLogin) {
     try {
-      const foundTweetDelete = await Tweet.findByIdAndDelete(tweetId);
+      const foundTweet = await Tweet.findById(tweetId);
+      if (userIdLogin !== foundTweet.userId) {
+        throw new Error("Users are not the same!");
+      }
+      const foundTweetDelete = await Tweet.findByIdAndDelete(tweetId); 
       if (!foundTweetDelete) {
         throw new Error("Tweet with this ID doesn't exist");
       }
-      const userContainingTweet = await User.find({ tweetsId: tweetId });
-      if (!userContainingTweet) {
-        throw new Error("Tweet with this user doesn't exist");
+      const commentContainingTweet = await Comment.find({ tweetId: tweetId });
+      if (!commentContainingTweet) {
+        throw new Error("Tweet with this comment doesn't exist");
       }
-      // Ahmed fragen
       await Promise.all(
-        userContainingTweet.map(async (tweet) => {
-          tweet.tweetsId = tweet.tweetsId.filter((tId) => tId.toString() !== tweetId);
-          await tweet.save();
+        commentContainingTweet.map(async(comment) => {
+          await Comment.findByIdAndDelete(comment._id);
         })
       );
       return foundTweetDelete;
