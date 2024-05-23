@@ -2,7 +2,7 @@ import express from "express";
 
 import { UserController } from "../controllers/userController.js";
 import { validateRefreshTokenInCookieSession } from "../middlewares/doJwtAuth.js";
-// import { doJwtAuth } from "../middlewares/doJwtAuth.js";
+import { doJwtAuth } from "../middlewares/doJwtAuth.js";
 
 export const userRouter = express
   .Router()
@@ -13,5 +13,9 @@ export const userRouter = express
     validateRefreshTokenInCookieSession,
     UserController.refreshAccessTokenCtrl
   )
-  .post("/verify-email", UserController.verifyUserEmailCtrl)
-  .get("/send-email/:userId",  UserController.sendEmailCtrl); // authorization is logg
+  .post("/verify-email",doJwtAuth, UserController.verifyUserEmailCtrl)
+  .get("/send-email/:userId",doJwtAuth, UserController.sendEmailCtrl)
+  .delete("/:userId",doJwtAuth, UserController.deleteUserCtrl)
+  .get("/", UserController.getAllUsersCtrl)
+  .get("/:userId", UserController.getOneUserCtrl)
+  .post("/logout",doJwtAuth, UserController.logoutUserCtrl);

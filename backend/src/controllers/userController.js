@@ -20,7 +20,7 @@ async function loginUserCtrl(req, res) {
       password: req.body.password,
     };
     const result = await UserService.loginUser(userInfo);
-    // console.log("-------", result);
+
     const refreshToken = result.tokens.refreshToken;
     if (refreshToken) {
       req.session.refreshToken = refreshToken;
@@ -34,6 +34,7 @@ async function loginUserCtrl(req, res) {
 }
 async function refreshAccessTokenCtrl(req, res) {
   try {
+
     const result = await UserService.refreshAccessToken(
       req.authenticatedUserId
     );
@@ -74,6 +75,48 @@ async function sendEmailCtrl(req, res) {
       .json({ err, message: err.message || "Could not send email" });
   }
 }
+async function deleteUserCtrl(req, res) {
+  try {
+    const userId = req.params.userId;
+    const result = await UserService.deleteUser(userId);
+    res.json({ result });
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({ err, message: err.message || "Could not delete user" });
+  }
+}
+async function getOneUserCtrl(req, res) {
+  try {
+    const userId = req.params.userId;
+    const result = await UserService.getOneUser(userId);
+
+    res.json({ result });
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({ err, message: err.message || "Could not find user" });
+  }
+}
+async function getAllUsersCtrl(req, res) {
+  try {
+    const result = await UserService.getAllUsers();
+
+    res.json({ result });
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({ err, message: err.message || "Could not find all users" });
+  }
+}
+
+async function logoutUserCtrl(req, res) {
+  req.session.refreshToken = null; // refresh token löschen
+  res.status(200).json({ result: { message: "you are now logged out" } });
+}
 
 export const UserController = {
   registerUserCtrl,
@@ -81,4 +124,8 @@ export const UserController = {
   refreshAccessTokenCtrl,
   verifyUserEmailCtrl,
   sendEmailCtrl,
+  deleteUserCtrl,
+  getOneUserCtrl,
+  getAllUsersCtrl,
+  logoutUserCtrl,
 };

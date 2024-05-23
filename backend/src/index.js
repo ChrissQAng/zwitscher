@@ -5,6 +5,7 @@ import { connectToDatabase } from "./models/index.js";
 import { userRouter } from "./routes/userRouter.js";
 import cookieSession from "cookie-session";
 import dotenv from "dotenv";
+import { tweetRouter } from "./routes/tweetRouter.js";
 
 dotenv.config();
 const app = express();
@@ -33,6 +34,7 @@ app.use(morgan("dev"));
 app.use(express.json()); // body parser
 
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/tweets", tweetRouter);
 
 try {
   await connectToDatabase();

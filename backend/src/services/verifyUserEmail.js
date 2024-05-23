@@ -12,5 +12,5 @@ export async function verifyUserEmail({ userId, sixDigitCode }) {
 
   // await User.findByIdAndUpdate(userId, { $set: { isEmailVerified: true } });
 
-  return { message: "You can now log in" }; // return; empty result (aber 200 OK wird im controller gesendet)
+  return { message: "Your email is now verified" }; // return; empty result (aber 200 OK wird im controller gesendet)
 }
