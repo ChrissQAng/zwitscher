@@ -8,6 +8,8 @@ import { getOneUser } from "./getOneUser.js";
 import { getAllUsers } from "./getAllUsers.js";
 import { postTweet } from "./postTweet.js";
 import { deleteTweet } from "./deleteTweet.js";
+import { postComment } from "./postComment.js";
+import { deleteComment } from "./deleteComment.js";
 
 export const UserService = {
   registerUser,
@@ -22,5 +24,9 @@ export const UserService = {
 
 export const TweetService = {
   postTweet,
-  deleteTweet
-}
+  deleteTweet,
+};
+export const CommentService = {
+  postComment,
+  deleteComment,
+};

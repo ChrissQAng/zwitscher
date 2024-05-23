@@ -1,8 +1,9 @@
 import express from "express";
 
-import { CommentController } from "../controllers/CommentController.js";
+import { CommentController } from "../controllers/commentController.js";
 import { doJwtAuth } from "../middlewares/doJwtAuth.js";
 
-export const userRouter = express
+export const commentRouter = express
   .Router()
-  .post("/comments", CommentController.postCommentCtrl);
+  .post("/", doJwtAuth, CommentController.postCommentCtrl)
+  .delete("/:commentId", doJwtAuth, CommentController.deleteCommentCtrl);
