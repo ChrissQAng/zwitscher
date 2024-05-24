@@ -2,6 +2,7 @@ import { User } from "../models/user.js";
 
 export async function verifyUserEmail({ userId, sixDigitCode }) {
   const user = await User.findById(userId);
+  console.log("------", userId);
   if (!user) throw new Error("User not found");
 
   const codeMatched = user.sixDigitCode === sixDigitCode;

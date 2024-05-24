@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Dashboard from "./pages/Dashboard";
 import AuthRequired from "./components/AuthRequired";
 import { backendUrl } from "./api/api";
+import VerifyEmail from "./pages/VerifyEmail";
 
 function App() {
   const [token, setToken] = useState(); // aktuell verwendete accessToken
@@ -25,6 +26,14 @@ function App() {
           element={
             <AuthRequired token={token} setToken={setToken}>
               <Dashboard token={token} user={user} />
+            </AuthRequired>
+          }
+        />
+        <Route
+          path="/verify-email/:_id"
+          element={
+            <AuthRequired token={token} setToken={setToken}>
+              <VerifyEmail token={token} user={user} />
             </AuthRequired>
           }
         />
