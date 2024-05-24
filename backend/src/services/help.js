@@ -3,7 +3,7 @@ export function userToView(user) {
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
-    tweetsId: user.tweetsId,
-    commentsId: user.commentsId,
+    _id: user._id,
+    isEmailVerified: user.isEmailVerified,
   };
 }

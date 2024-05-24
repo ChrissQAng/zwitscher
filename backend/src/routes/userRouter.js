@@ -18,4 +18,4 @@ export const userRouter = express
   .delete("/:userId",doJwtAuth, UserController.deleteUserCtrl)
   .get("/", UserController.getAllUsersCtrl)
   .get("/:userId", UserController.getOneUserCtrl)
-  .post("/logout",doJwtAuth, UserController.logoutUserCtrl);
+  .post("/logout", UserController.logoutUserCtrl);

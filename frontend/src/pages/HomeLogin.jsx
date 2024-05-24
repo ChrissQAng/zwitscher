@@ -2,7 +2,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import { backendUrl } from "../api/api";
 
-const Login = () => {
+const HomeLogin = () => {
   const [password, setPassword] = useState("hallo123");
   const [errorMessage, setErrorMessage] = useState("");
   const [email, setEmail] = useState("goodomen@outlook.de");
@@ -21,10 +21,12 @@ const Login = () => {
 
     const data = await res.json();
 
+    console.log({"logdata":data});
+
     if (!data.result)
       return setErrorMessage(data.message || "Failed verify email");
 
-    navigate("/dashboard");
+    navigate(`/dashboard/${data.result.user._id}`);
 
     // save token --> "logged in"
     setToken(data.result.tokens.accessToken);
@@ -65,4 +67,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default HomeLogin;
