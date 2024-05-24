@@ -10,6 +10,7 @@ import { postTweet } from "./postTweet.js";
 import { deleteTweet } from "./deleteTweet.js";
 import { postComment } from "./postComment.js";
 import { deleteComment } from "./deleteComment.js";
+import { getAllTweets } from "./getAllTweets.js";
 
 export const UserService = {
   registerUser,
@@ -25,6 +26,7 @@ export const UserService = {
 export const TweetService = {
   postTweet,
   deleteTweet,
+  getAllTweets
 };
 export const CommentService = {
   postComment,
