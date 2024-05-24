@@ -40,6 +40,7 @@ const Dashboard = ({ token }) => {
       {verified ? "" : <SendVerification userId={_id} token={token} />}
 
       <h1>Dashboard</h1>
+
     </>
   );
 };

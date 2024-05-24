@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import AuthRequired from "./components/AuthRequired";
 import { backendUrl } from "./api/api";
 import VerifyEmail from "./pages/VerifyEmail";
+import Tweets from "./pages/Tweets";
 
 function App() {
   const [token, setToken] = useState(); // aktuell verwendete accessToken
@@ -34,6 +35,14 @@ function App() {
           element={
             <AuthRequired token={token} setToken={setToken}>
               <VerifyEmail token={token} user={user} />
+            </AuthRequired>
+          }
+        />
+        <Route
+          path="/tweets"
+          element={
+            <AuthRequired token={token} setToken={setToken}>
+              <Tweets token={token} user={user} />
             </AuthRequired>
           }
         />

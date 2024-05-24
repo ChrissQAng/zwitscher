@@ -2,7 +2,7 @@ import {Link, useNavigate} from "react-router-dom"
 import { backendUrl } from "../api/api";
 
 
-const Navbar = ({ token, user }) => {
+const Navbar = ({ token, user, verified}) => {
     const navigate = useNavigate();
     const logoutUser = async (e) => {
         e.preventDefault();
@@ -24,7 +24,7 @@ const Navbar = ({ token, user }) => {
         <h3>Zwitscher</h3>
     </div>
     <div>
-        <Link to="/tweets">Tweets</Link>
+        <Link className="" to="/tweets">Tweets</Link>
         <Link to="/dashboard">Dashboard</Link>
     </div>
     <div>
