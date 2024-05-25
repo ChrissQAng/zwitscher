@@ -4,6 +4,8 @@ import { backendUrl } from "../api/api";
 
 const HomeLogin = () => {
   const [password, setPassword] = useState("hallo123");
+  const [token, setToken] = useState("");
+  const [user, setUser] = useState();
   const [errorMessage, setErrorMessage] = useState("");
   const [email, setEmail] = useState("goodomen@outlook.de");
 

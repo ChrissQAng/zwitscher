@@ -1,13 +1,13 @@
-import { useParams } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import { useParams } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
-import SendVerification from "../components/SendVerification";
-import { useEffect, useState } from "react";
-import { backendUrl } from "../api/api";
+import SendVerification from '../components/SendVerification';
+import { useEffect, useState } from 'react';
+import { backendUrl } from '../api/api';
 
 const Dashboard = ({ token }) => {
-  const [user, setUser] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [user, setUser] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [verified, setVerified] = useState(false);
 
   const { _id } = useParams();
@@ -21,13 +21,13 @@ const Dashboard = ({ token }) => {
       const data = await res.json();
 
       if (!data.result)
-        return setErrorMessage(data.message || "Could not load user");
+        return setErrorMessage(data.message || 'Could not load user');
 
       setUser(data.result);
 
       setVerified(data.result.user.isEmailVerified);
 
-      setErrorMessage(""); // reset error message (zur sicherheit)
+      setErrorMessage(''); // reset error message (zur sicherheit)
     }
 
     fetchUser();
@@ -36,11 +36,10 @@ const Dashboard = ({ token }) => {
 
   return (
     <>
-      <Navbar />
-      {verified ? "" : <SendVerification userId={_id} token={token} />}
+      <Navbar userId={_id} />
+      {verified ? '' : <SendVerification userId={_id} token={token} />}
 
       <h1>Dashboard</h1>
-
     </>
   );
 };
