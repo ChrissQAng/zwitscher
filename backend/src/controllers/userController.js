@@ -34,7 +34,6 @@ async function loginUserCtrl(req, res) {
 }
 async function refreshAccessTokenCtrl(req, res) {
   try {
-
     const result = await UserService.refreshAccessToken(
       req.authenticatedUserId
     );
@@ -100,6 +99,34 @@ async function getOneUserCtrl(req, res) {
       .json({ err, message: err.message || "Could not find user" });
   }
 }
+async function getDashboardCtrl(req, res) {
+  try {
+    const userId = req.params.userId;
+    const result = await UserService.getDashboard(userId);
+
+    res.json({ result });
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({ err, message: err.message || "Could not get dashboard" });
+  }
+}
+async function postFollowmentCtrl(req, res) {
+  try {
+    const userId = req.params.userId;
+    const followedId = req.body.followedId;
+    console.log();
+    const result = await UserService.postFollowment(userId, followedId);
+
+    res.json({ result });
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({ err, message: err.message || "Could not post followment" });
+  }
+}
 async function getAllUsersCtrl(req, res) {
   try {
     const result = await UserService.getAllUsers();
@@ -119,13 +146,15 @@ async function logoutUserCtrl(req, res) {
 }
 
 export const UserController = {
-  registerUserCtrl,
-  loginUserCtrl,
-  refreshAccessTokenCtrl,
-  verifyUserEmailCtrl,
-  sendEmailCtrl,
   deleteUserCtrl,
-  getOneUserCtrl,
   getAllUsersCtrl,
+  getDashboardCtrl,
+  getOneUserCtrl,
+  loginUserCtrl,
   logoutUserCtrl,
+  refreshAccessTokenCtrl,
+  registerUserCtrl,
+  sendEmailCtrl,
+  verifyUserEmailCtrl,
+  postFollowmentCtrl,
 };

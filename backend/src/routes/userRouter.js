@@ -13,9 +13,11 @@ export const userRouter = express
     validateRefreshTokenInCookieSession,
     UserController.refreshAccessTokenCtrl
   )
-  .post("/verify-email",doJwtAuth, UserController.verifyUserEmailCtrl)
-  .get("/send-email/:userId",doJwtAuth, UserController.sendEmailCtrl)
-  .delete("/:userId",doJwtAuth, UserController.deleteUserCtrl)
+  .get("/dashboard/:userId", UserController.getDashboardCtrl)
+  .post("/add-followment/:userId", UserController.postFollowmentCtrl)
+  .post("/verify-email", doJwtAuth, UserController.verifyUserEmailCtrl)
+  .get("/send-email/:userId", doJwtAuth, UserController.sendEmailCtrl)
+  .delete("/:userId", doJwtAuth, UserController.deleteUserCtrl)
   .get("/", UserController.getAllUsersCtrl)
   .get("/:userId", UserController.getOneUserCtrl)
   .post("/logout", UserController.logoutUserCtrl);
