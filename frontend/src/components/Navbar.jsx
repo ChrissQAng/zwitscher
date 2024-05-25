@@ -24,9 +24,7 @@ const Navbar = ({ userId }) => {
         <h3>Zwitscher</h3>
       </div>
       <div>
-        <Link className="" to="/tweets">
-          Tweets
-        </Link>
+        <Link to={`/tweets/${userId}`}>Tweets</Link>
         <Link to={`/dashboard/${userId}`}>Dashboard</Link>
         {/*  funktioniert noch
         nicht id vom props über dashboard ist gleich undefine */}

@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { backendUrl } from '../api/api';
 import Navbar from '../components/Navbar';
+import { useParams } from 'react-router-dom';
 
 const Tweets = ({ token }) => {
   const [tweets, setTweets] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
+  const { _id } = useParams();
 
   useEffect(() => {
     async function fetchTweets() {
@@ -44,7 +46,7 @@ const Tweets = ({ token }) => {
 
   return (
     <>
-      <Navbar />
+      <Navbar userId={_id} />
       <h1>Tweets</h1>
       {tweets.result?.map((tweet) => (
         <div key={tweet._id}>
