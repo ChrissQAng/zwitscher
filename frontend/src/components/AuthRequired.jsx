@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import { backendUrl } from "../api/api";
+import { useEffect, useRef, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { backendUrl } from '../api/api';
+import Logo from './Logo';
 
 const AuthRequired = ({ token, setToken, children }) => {
   // assume just re-loaded
@@ -18,8 +19,8 @@ const AuthRequired = ({ token, setToken, children }) => {
 
     async function checkLoggedIn() {
       const response = await fetch(`${backendUrl}/api/v1/users/refresh-token`, {
-        method: "POST",
-        credentials: "include",
+        method: 'POST',
+        credentials: 'include',
       });
 
       const data = await response.json();
@@ -27,7 +28,7 @@ const AuthRequired = ({ token, setToken, children }) => {
         setToken(data.result.newAccessToken);
         doSilentRefresh(data.result.newAccessToken);
       } else {
-        navigate("/login");
+        navigate('/login');
       }
 
       setLoading(false);
@@ -40,16 +41,16 @@ const AuthRequired = ({ token, setToken, children }) => {
 
       timeoutRef.current = setTimeout(async () => {
         try {
-          console.log("fetching backend for silent refresh");
+          console.log('fetching backend for silent refresh');
           const response = await fetch(
             `${backendUrl}/api/v1/users/refresh-token`,
             {
-              method: "POST",
-              credentials: "include",
+              method: 'POST',
+              credentials: 'include',
             }
           );
 
-          if (!data.result) navigate("/login");
+          if (!data.result) navigate('/login');
 
           const data = await response.json();
           console.log({ data });
@@ -58,13 +59,13 @@ const AuthRequired = ({ token, setToken, children }) => {
         } catch (err) {
           // error handling
           console.log(err);
-          navigate("/login");
+          navigate('/login');
         }
       }, tokenExpiration);
     }
 
     function calcTokenExpDuration(accessToken) {
-      const tokenPayloadBase64 = accessToken.split(".")[1];
+      const tokenPayloadBase64 = accessToken.split('.')[1];
       const tokenPayloadJson = atob(tokenPayloadBase64);
       const tokenPayload = JSON.parse(tokenPayloadJson);
       const duration = tokenPayload.exp - tokenPayload.iat;
@@ -76,7 +77,14 @@ const AuthRequired = ({ token, setToken, children }) => {
     return () => clearTimeout(timeoutRef.current);
   }, []);
 
-  if (loading) return "Loading...";
+  if (loading)
+    return (
+      <div className="h-screen flex items-center justify-center bg-slate-200">
+        <div className="animate-bounce">
+          <Logo />
+        </div>
+      </div>
+    );
   else return <>{children}</>;
 };
 

@@ -1,7 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { backendUrl } from '../api/api';
+import Logo from './Logo';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const Navbar = ({ userId }) => {
+  const [url, setUrl] = useState('dashboard');
   const navigate = useNavigate();
   const logoutUser = async (e) => {
     e.preventDefault();
@@ -17,20 +21,38 @@ const Navbar = ({ userId }) => {
     navigate('/');
   };
 
-  //   console.log(userId);
+  useEffect(() => {
+    let currUrl = window.location.href;
+    if (currUrl.includes('tweets')) {
+      setUrl('tweets');
+    } else if (currUrl.includes('dashboard')) {
+      setUrl('dashboard');
+    }
+  }, []);
+
   return (
-    <nav>
-      <div>
-        <h3>Zwitscher</h3>
+    <nav className="flex items-center justify-around pt-3 bg-slate-200 text-slate-600 font-mono">
+      <div className="">
+        <Logo />
       </div>
-      <div>
-        <Link to={`/tweets/${userId}`}>Tweets</Link>
-        <Link to={`/dashboard/${userId}`}>Dashboard</Link>
-        {/*  funktioniert noch
-        nicht id vom props über dashboard ist gleich undefine */}
+      <div className="flex gap-3">
+        <Link
+          className={url === 'tweets' ? 'underline underline-offset-4' : ''}
+          to={`/tweets/${userId}`}>
+          Tweets
+        </Link>
+        <Link
+          className={url === 'dashboard' ? 'underline underline-offset-4' : ''}
+          to={`/dashboard/${userId}`}>
+          Dashboard
+        </Link>
       </div>
-      <div>
-        <button onClick={logoutUser}>Logout</button>
+      <div className="">
+        <button
+          className=" border-slate-600 border px-3 py-1 rounded-lg duration-300 hover:scale-105 hover:bg-slate-600 hover:text-slate-200"
+          onClick={logoutUser}>
+          Logout
+        </button>
       </div>
     </nav>
   );

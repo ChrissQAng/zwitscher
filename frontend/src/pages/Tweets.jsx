@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { backendUrl } from '../api/api';
 import Navbar from '../components/Navbar';
+import TweetBox from '../components/TweetBox';
 import { useParams } from 'react-router-dom';
 
 const Tweets = ({ token }) => {
@@ -33,31 +34,12 @@ const Tweets = ({ token }) => {
     fetchTweets();
   }, [token]);
 
-  const convertDate = (timestamp) => {
-    const date = new Date(timestamp);
-    const finalDate =
-      date.getDate() +
-      ' ' +
-      date.toLocaleString('default', { month: 'long' }) +
-      ' ' +
-      date.getFullYear();
-    return finalDate;
-  };
-
   return (
     <>
       <Navbar userId={_id} />
       <h1>Tweets</h1>
       {tweets.result?.map((tweet) => (
-        <div key={tweet._id}>
-          <div>
-            <p>
-              {tweet.userId.firstName} {tweet.userId.lastName}
-            </p>
-            <p>{convertDate(tweet.createdAt)}</p>
-          </div>
-          <p>{tweet.text}</p>
-        </div>
+        <TweetBox tweet={tweet} />
       ))}
     </>
   );
