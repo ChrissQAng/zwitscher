@@ -1,11 +1,12 @@
-import express from 'express'
+import express from "express";
 
-import { TweetController } from '../controllers/tweetController.js'
-import { doJwtAuth } from '../middlewares/doJwtAuth.js'
+import { TweetController } from "../controllers/tweetController.js";
+import { doJwtAuth } from "../middlewares/doJwtAuth.js";
 
 export const tweetRouter = express
   .Router()
-  .post('/', doJwtAuth, TweetController.postTweetCtrl)
-  .delete('/:tweetId', doJwtAuth, TweetController.deleteTweetCtrl)
-  .get('/', doJwtAuth, TweetController.getAllTweetsCtrl)
-  .get('/:tweetId', doJwtAuth, TweetController.getOneTweetCtrl)
+  .post("/", doJwtAuth, TweetController.postTweetCtrl)
+  .get("/feed", doJwtAuth, TweetController.getDashboardFeedCtrl)
+  .delete("/:tweetId", doJwtAuth, TweetController.deleteTweetCtrl)
+  .get("/", doJwtAuth, TweetController.getAllTweetsCtrl)
+  .get("/:tweetId", doJwtAuth, TweetController.getOneTweetCtrl);

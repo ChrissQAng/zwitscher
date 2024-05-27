@@ -13,6 +13,7 @@ import { deleteComment } from "./deleteComment.js";
 import { getAllTweets } from "./getAllTweets.js";
 import { getDashboard } from "./getDashboard.js";
 import { postFollowment } from "./postFollowment.js";
+import { getDashboardFeed } from "./getDashboardFeed.js";
 
 export const UserService = {
   registerUser,
@@ -31,6 +32,7 @@ export const TweetService = {
   postTweet,
   deleteTweet,
   getAllTweets,
+  getDashboardFeed,
 };
 export const CommentService = {
   postComment,
