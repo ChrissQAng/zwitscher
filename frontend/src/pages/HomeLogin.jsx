@@ -1,49 +1,49 @@
-import { useNavigate, Link } from 'react-router-dom';
-import { useState } from 'react';
-import { backendUrl } from '../api/api';
-import Logo from '../components/Logo';
+import { useNavigate, Link } from 'react-router-dom'
+import { useState } from 'react'
+import { backendUrl } from '../api/api'
+import Logo from '../components/Logo'
 
 const HomeLogin = () => {
-  const [password, setPassword] = useState('hallo123');
-  const [token, setToken] = useState('');
-  const [user, setUser] = useState();
-  const [errorMessage, setErrorMessage] = useState('');
-  const [email, setEmail] = useState('goodomen@outlook.de');
+  const [password, setPassword] = useState('')
+  const [token, setToken] = useState('')
+  const [user, setUser] = useState()
+  const [errorMessage, setErrorMessage] = useState('')
+  const [email, setEmail] = useState('')
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const loginUser = async (e) => {
-    e.preventDefault();
+  const loginUser = async e => {
+    e.preventDefault()
 
     const res = await fetch(`${backendUrl}/api/v1/users/login`, {
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
       body: JSON.stringify({ email, password }),
       credentials: 'include',
-    });
+    })
 
-    const data = await res.json();
+    const data = await res.json()
 
-    console.log({ logdata: data });
+    console.log({ logdata: data })
 
     if (!data.result)
-      return setErrorMessage(data.message || 'Failed verify email');
+      return setErrorMessage(data.message || 'Failed verify email')
 
-    navigate(`/dashboard/${data.result.user._id}`);
+    navigate(`/dashboard/${data.result.user._id}`)
 
     // save token --> "logged in"
-    setToken(data.result.tokens.accessToken);
-    setUser(data.result.user);
-  };
+    setToken(data.result.tokens.accessToken)
+    setUser(data.result.user)
+  }
 
   return (
     <>
-      <div className="h-screen flex flex-col items-center justify-center gap-7 font-mono bg-slate-200 text-slate-600 relative">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-7 text-slate-600 relative">
         <div className=" fixed top-4">
           <Logo />
         </div>
-        <p className=" font-bold text-2xl">Welcome to Zwitscher</p>
-        <p className=" font-bold text-lg">Login</p>
+        <p className="  text-2xl">Welcome to Zwitscher</p>
+        <p className="  text-lg">Login</p>
         <form className="flex flex-col items-center gap-7">
           <p className=" text-center">{errorMessage}</p>
           <div>
@@ -54,7 +54,7 @@ const HomeLogin = () => {
                 type="email"
                 placeholder="Email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
               />
             </div>
             <div>
@@ -64,7 +64,7 @@ const HomeLogin = () => {
                 type="password"
                 placeholder="Password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
               />
             </div>
           </div>
@@ -86,7 +86,7 @@ const HomeLogin = () => {
         </p>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default HomeLogin;
+export default HomeLogin

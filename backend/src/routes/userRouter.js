@@ -1,23 +1,23 @@
-import express from "express";
+import express from 'express';
 
-import { UserController } from "../controllers/userController.js";
-import { validateRefreshTokenInCookieSession } from "../middlewares/doJwtAuth.js";
-import { doJwtAuth } from "../middlewares/doJwtAuth.js";
+import { UserController } from '../controllers/userController.js';
+import { validateRefreshTokenInCookieSession } from '../middlewares/doJwtAuth.js';
+import { doJwtAuth } from '../middlewares/doJwtAuth.js';
 
 export const userRouter = express
   .Router()
-  .post("/login", UserController.loginUserCtrl)
-  .post("/register", UserController.registerUserCtrl)
+  .post('/login', UserController.loginUserCtrl)
+  .post('/register', UserController.registerUserCtrl)
   .post(
-    "/refresh-token",
+    '/refresh-token',
     validateRefreshTokenInCookieSession,
     UserController.refreshAccessTokenCtrl
   )
-  .get("/dashboard/:userId", UserController.getDashboardCtrl)
-  .post("/add-followment/:userId", UserController.postFollowmentCtrl)
-  .post("/verify-email", doJwtAuth, UserController.verifyUserEmailCtrl)
-  .get("/send-email/:userId", doJwtAuth, UserController.sendEmailCtrl)
-  .delete("/:userId", doJwtAuth, UserController.deleteUserCtrl)
-  .get("/", UserController.getAllUsersCtrl)
-  .get("/:userId", UserController.getOneUserCtrl)
-  .post("/logout", UserController.logoutUserCtrl);
+  .get('/dashboard/:userId', UserController.getDashboardCtrl)
+  .post('/add-followment/:userId', UserController.postFollowmentCtrl)
+  .post('/verify-email', doJwtAuth, UserController.verifyUserEmailCtrl)
+  .get('/send-email/:userId', doJwtAuth, UserController.sendEmailCtrl)
+  .delete('/:userId', doJwtAuth, UserController.deleteUserCtrl)
+  .get('/', UserController.getAllUsersCtrl)
+  .get('/:userId', doJwtAuth, UserController.getOneUserCtrl)
+  .post('/logout', UserController.logoutUserCtrl);

@@ -1,45 +1,52 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { backendUrl } from '../api/api';
-import Logo from '../components/Logo';
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { backendUrl } from '../api/api'
+import Logo from '../components/Logo'
 
 const Register = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('')
+  const [token, setToken] = useState('')
+  const [user, setUser] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('')
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const registerUser = async (e) => {
-    e.preventDefault();
+  const registerUser = async e => {
+    e.preventDefault()
 
     const res = await fetch(`${backendUrl}/api/v1/users/register`, {
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
       body: JSON.stringify({ firstName, lastName, email, password }),
-    });
+    })
 
-    const data = await res.json();
+    const data = await res.json()
+
+    console.log('----', data)
 
     if (!data.result)
       return setErrorMessage(
-        data.message || 'Failed to register, please try again'
-      );
+        data.message || 'Failed to register, please try again',
+      )
 
     // const userInfo = data.result;
-    navigate(`/dashboard`);
-  };
+    navigate(`/dashboard/${data.result.user._id}`)
+
+    setToken(data.result.tokens.accessToken)
+    setUser(data.result.user)
+  }
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center gap-7 font-mono bg-slate-200 text-slate-600 relative">
+    <div className="h-screen flex flex-col items-center justify-center gap-7 text-slate-600 relative">
       <div className=" fixed top-4">
         <Logo />
       </div>
-      <p className=" font-bold text-2xl">Welcome to Zwitscher</p>
-      <p className=" font-bold text-lg">Create an Account</p>
+      <p className="  text-2xl">Welcome to Zwitscher</p>
+      <p className="  text-lg">Create an Account</p>
       <form className="flex flex-col items-center gap-7">
         <p className=" text-center">{errorMessage}</p>
         <div>
@@ -50,7 +57,7 @@ const Register = () => {
               type="text"
               placeholder="Fristname"
               value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={e => setFirstName(e.target.value)}
             />
           </div>
           <div>
@@ -60,7 +67,7 @@ const Register = () => {
               type="text"
               placeholder="Lastname"
               value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={e => setLastName(e.target.value)}
             />
           </div>
           <div>
@@ -70,7 +77,7 @@ const Register = () => {
               type="email"
               placeholder="Email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
             />
           </div>
           <div>
@@ -80,7 +87,7 @@ const Register = () => {
               type="password"
               placeholder="Password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
             />
           </div>
         </div>
@@ -99,7 +106,7 @@ const Register = () => {
         </Link>
       </p>
     </div>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register
