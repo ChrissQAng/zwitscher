@@ -2,11 +2,14 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { backendUrl } from '../api/api'
 import Logo from './Logo'
+import { TokenContext, UserContext } from '../../context/Context'
 
-const AuthRequired = ({ token, setToken, children }) => {
+const AuthRequired = ({ children }) => {
   // assume just re-loaded
-  const [loading, setLoading] = useState(token ? false : true)
   const timeoutRef = useRef(null) // aktuellen timeout für silent refresh
+  const { token, setToken } = useContext(TokenContext)
+  const { setUser } = useContext(UserContext)
+  const [loading, setLoading] = useState(token ? false : true)
   const navigate = useNavigate()
 
   // try refreshing token --> get new access token
@@ -28,6 +31,7 @@ const AuthRequired = ({ token, setToken, children }) => {
       const data = await response.json()
       if (data.result) {
         setToken(data.result.newAccessToken)
+        setUser({ user: data.result.user, tweets: data.result.tweets })
         doSilentRefresh(data.result.newAccessToken)
       } else {
         navigate('/')

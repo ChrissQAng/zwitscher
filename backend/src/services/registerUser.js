@@ -3,6 +3,7 @@ import { generateRandomSalt, hash } from '../utils/hash.js'
 import { generateRandomSixDigitCode } from '../utils/sixDigitCode.js'
 import { userToView } from './help.js'
 import { createToken } from '../utils/createToken.js'
+import { Tweet } from '../models/tweet.js'
 
 export async function registerUser({
   firstName,
@@ -24,7 +25,6 @@ export async function registerUser({
     email,
     passwordHash,
     passwordSalt,
-
     isEmailVerified: false,
     sixDigitCode,
   })
@@ -32,8 +32,14 @@ export async function registerUser({
   const refreshToken = createToken(user, 'refresh') // header.payload.signature
   // console.log(refreshToken);
 
+  const userDb = await User.findOne({ email })
+  if (!userDb) throw new Error('Invalid email')
+
+  const tweets = await Tweet.find({ userId: user._id })
+
   return {
     user: userToView(user),
     tokens: { accessToken, refreshToken },
+    tweets: { tweets },
   }
 }

@@ -4,8 +4,8 @@ import Logo from './Logo'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
-const Navbar = ({ id }) => {
-  const [url, setUrl] = useState('dashboard')
+const Navbar = () => {
+  const [pageUrl, setPageUrl] = useState('profile')
   const navigate = useNavigate()
   const logoutUser = async e => {
     e.preventDefault()
@@ -23,12 +23,14 @@ const Navbar = ({ id }) => {
 
   useEffect(() => {
     let currUrl = window.location.href
-    if (currUrl.includes('tweets')) {
-      setUrl('tweets')
-    } else if (currUrl.includes('dashboard')) {
-      setUrl('dashboard')
+    if (currUrl.includes('feed')) {
+      setPageUrl('feed')
+    } else if (currUrl.includes('my-profile')) {
+      setPageUrl('profile')
+    } else if (currUrl.includes('discover')) {
+      setPageUrl('discover')
     }
-  }, [])
+  }, [pageUrl])
 
   return (
     <nav className="flex items-center justify-around pt-3 bg-slate-200 text-slate-600">
@@ -38,17 +40,24 @@ const Navbar = ({ id }) => {
       <div className="flex gap-3">
         <Link
           className={
-            url === 'tweets' ? ' underline underline-offset-4 ' : ''
+            pageUrl === 'discover' ? ' underline underline-offset-4 ' : ''
           }
-          to={`/tweets/${id}`}>
-          Tweets
+          to={`/discover`}>
+          Discover
         </Link>
         <Link
           className={
-            url === 'dashboard' ? ' underline underline-offset-4 ' : ''
+            pageUrl === 'feed' ? ' underline underline-offset-4 ' : ''
           }
-          to={`/dashboard/${id}`}>
-          Dashboard
+          to={`/feed`}>
+          Feed
+        </Link>
+        <Link
+          className={
+            pageUrl === 'profile' ? ' underline underline-offset-4 ' : ''
+          }
+          to={`/my-profile`}>
+          My Profile
         </Link>
       </div>
       <div className="">

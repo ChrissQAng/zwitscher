@@ -5,13 +5,14 @@ import Logo from '../components/Logo'
 
 const Register = () => {
   const [firstName, setFirstName] = useState('')
-  const [token, setToken] = useState('')
-  const [user, setUser] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const [errorMessage, setErrorMessage] = useState('')
+
+  const { setUser } = useContext(UserContext)
+  const { setToken } = useContext(TokenContext)
 
   const navigate = useNavigate()
 
@@ -33,8 +34,7 @@ const Register = () => {
         data.message || 'Failed to register, please try again',
       )
 
-    // const userInfo = data.result;
-    navigate(`/dashboard/${data.result.user._id}`)
+    navigate(`/my-profile`)
 
     setToken(data.result.tokens.accessToken)
     setUser(data.result.user)

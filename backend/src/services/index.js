@@ -1,19 +1,19 @@
-import { registerUser } from "./registerUser.js";
-import { loginUser } from "./loginUser.js";
-import { refreshAccessToken } from "./refreshAccessToken.js";
-import { verifyUserEmail } from "./verifyUserEmail.js";
-import { sendVerificationEmail } from "./sendEmail.js";
-import { deleteUser } from "./deleteUser.js";
-import { getOneUser } from "./getOneUser.js";
-import { getAllUsers } from "./getAllUsers.js";
-import { postTweet } from "./postTweet.js";
-import { deleteTweet } from "./deleteTweet.js";
-import { postComment } from "./postComment.js";
-import { deleteComment } from "./deleteComment.js";
-import { getAllTweets } from "./getAllTweets.js";
-import { getDashboard } from "./getDashboard.js";
-import { postFollowment } from "./postFollowment.js";
-import { getDashboardFeed } from "./getDashboardFeed.js";
+import { registerUser } from './registerUser.js'
+import { loginUser } from './loginUser.js'
+import { refreshAccessToken } from './refreshAccessToken.js'
+import { verifyUserEmail } from './verifyUserEmail.js'
+import { sendVerificationEmail } from './sendEmail.js'
+import { deleteUser } from './deleteUser.js'
+import { getOneUser } from './getOneUser.js'
+import { getAllUsers } from './getAllUsers.js'
+import { postTweet } from './postTweet.js'
+import { deleteTweet } from './deleteTweet.js'
+import { postComment } from './postComment.js'
+import { deleteComment } from './deleteComment.js'
+import { getAllTweets } from './getAllTweets.js'
+import { getDashboard } from './getDashboard.js'
+import { postFollowment } from './postFollowment.js'
+import { getFeedTweets } from './getFeedTweets.js'
 
 export const UserService = {
   registerUser,
@@ -26,15 +26,15 @@ export const UserService = {
   getAllUsers,
   getDashboard,
   postFollowment,
-};
+}
 
 export const TweetService = {
   postTweet,
   deleteTweet,
   getAllTweets,
-  getDashboardFeed,
-};
+  getFeedTweets,
+}
 export const CommentService = {
   postComment,
   deleteComment,
-};
+}

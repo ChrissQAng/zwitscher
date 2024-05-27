@@ -1,14 +1,16 @@
 import { useNavigate, Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { backendUrl } from '../api/api'
 import Logo from '../components/Logo'
+import { TokenContext, UserContext } from '../../context/Context'
 
 const HomeLogin = () => {
-  const [password, setPassword] = useState('')
-  const [token, setToken] = useState('')
-  const [user, setUser] = useState()
+  const [password, setPassword] = useState('hallo123')
   const [errorMessage, setErrorMessage] = useState('')
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('boaventura@outlook.de')
+
+  const { user, setUser } = useContext(UserContext)
+  const { setToken } = useContext(TokenContext)
 
   const navigate = useNavigate()
 
@@ -24,16 +26,12 @@ const HomeLogin = () => {
 
     const data = await res.json()
 
-    console.log({ logdata: data })
-
     if (!data.result)
       return setErrorMessage(data.message || 'Failed verify email')
 
-    navigate(`/dashboard/${data.result.user._id}`)
-
-    // save token --> "logged in"
+    setUser({ user: data.result.user, tweets: data.result.tweets })
     setToken(data.result.tokens.accessToken)
-    setUser(data.result.user)
+    navigate('/my-profile')
   }
 
   return (

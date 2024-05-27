@@ -4,56 +4,76 @@ import './App.css'
 import Register from './pages/Register'
 import HomeLogin from './pages/HomeLogin'
 import { useEffect, useState } from 'react'
-import Dashboard from './pages/Dashboard'
+import MyProfile from './pages/MyProfile'
 import AuthRequired from './components/AuthRequired'
 
 import VerifyEmail from './pages/VerifyEmail'
-import Tweets from './pages/Tweets'
-import { RefreshContext } from '../context/Context'
+import Feed from './pages/Feed'
+import {
+  RefreshContext,
+  TokenContext,
+  UserContext,
+} from '../context/Context'
+import Discover from './pages/Discover'
 
 function App() {
   const [refresh, setRefresh] = useState(false)
   const [token, setToken] = useState() // aktuell verwendete accessToken
   const [user, setUser] = useState()
-  const [tweet, setTweet] = useState()
 
   return (
     <RefreshContext.Provider value={{ refresh, setRefresh }}>
-      <div className=" bg-slate-200 font-courier">
-        <BrowserRouter>
-          <Routes>
-            <Route
-              path="/"
-              element={<HomeLogin setToken={setToken} setUser={setUser} />}
-            />
-            <Route path="/register" element={<Register />} />
-            <Route
-              path="/dashboard/:_id"
-              element={
-                <AuthRequired token={token} setToken={setToken}>
-                  <Dashboard token={token} user={user} />
-                </AuthRequired>
-              }
-            />
-            <Route
-              path="/verify-email/:_id"
-              element={
-                <AuthRequired token={token} setToken={setToken}>
-                  <VerifyEmail token={token} user={user} />
-                </AuthRequired>
-              }
-            />
-            <Route
-              path="/tweets/:_id"
-              element={
-                <AuthRequired token={token} setToken={setToken}>
-                  <Tweets token={token} user={user} />
-                </AuthRequired>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
-      </div>
+      <TokenContext.Provider value={{ token, setToken }}>
+        <UserContext.Provider value={{ user, setUser }}>
+          <div className="bg-slate-600">
+            <div className="bg-slate-200 font-courier max-w-screen-sm mx-auto">
+              <BrowserRouter>
+                <Routes>
+                  <Route
+                    path="/"
+                    element={
+                      <HomeLogin setToken={setToken} setUser={setUser} />
+                    }
+                  />
+                  <Route path="/register" element={<Register />} />
+                  <Route
+                    path="/my-profile"
+                    element={
+                      <AuthRequired>
+                        <MyProfile />
+                      </AuthRequired>
+                    }
+                  />
+                  <Route
+                    path="/verify-email/:_id"
+                    element={
+                      <AuthRequired>
+                        <VerifyEmail />
+                      </AuthRequired>
+                    }
+                  />
+                  <Route
+                    path="/feed"
+                    element={
+                      <AuthRequired>
+                        <Feed />
+                      </AuthRequired>
+                    }
+                  />
+                  <Route
+                    path="/discover"
+                    element={
+                      <AuthRequired>
+                        <Discover />
+                      </AuthRequired>
+                    }
+                  />
+                </Routes>
+              </BrowserRouter>
+            </div>
+          </div>
+        </UserContext.Provider>
+      </TokenContext.Provider>
     </RefreshContext.Provider>
   )
 }

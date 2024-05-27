@@ -1,24 +1,24 @@
-import { User } from "../models/user.js";
-import { createToken } from "../utils/createToken.js";
-import { hash } from "../utils/hash.js";
-import { userToView } from "./help.js";
+import { User } from '../models/user.js'
+import { Tweet } from '../models/tweet.js'
+import { createToken } from '../utils/createToken.js'
+import { hash } from '../utils/hash.js'
+import { userToView } from './help.js'
 
 export async function loginUser({ email, password }) {
-  const user = await User.findOne({ email });
-  if (!user) throw new Error("Invalid login");
+  const user = await User.findOne({ email })
+  if (!user) throw new Error('Invalid login')
 
-  //   if (!user.isEmailVerified)
-  //     throw new Error("Email not verified, login aborted");
+  const passwordHash = hash(`${password}${user.passwordSalt}`)
+  const correctPassword = passwordHash === user.passwordHash
+  if (!correctPassword) throw new Error('Invalid login')
+  const tweets = await Tweet.find({ userId: user._id })
 
-  const passwordHash = hash(`${password}${user.passwordSalt}`);
-  const correctPassword = passwordHash === user.passwordHash;
-  if (!correctPassword) throw new Error("Invalid login");
+  const accessToken = createToken(user, 'access') // header.payload.signature
+  const refreshToken = createToken(user, 'refresh') // header.payload.signature
 
-  const accessToken = createToken(user, "access"); // header.payload.signature
-  const refreshToken = createToken(user, "refresh"); // header.payload.signature
-  // console.log(refreshToken);
   return {
     user: userToView(user),
     tokens: { accessToken, refreshToken },
-  };
+    tweets: { tweets },
+  }
 }
