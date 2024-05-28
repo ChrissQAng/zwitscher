@@ -1,11 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { backendUrl } from '../api/api'
 import Logo from './Logo'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
 const Navbar = () => {
-  const [pageUrl, setPageUrl] = useState('profile')
   const navigate = useNavigate()
   const logoutUser = async e => {
     e.preventDefault()
@@ -13,7 +12,6 @@ const Navbar = () => {
     const res = await fetch(`${backendUrl}/api/v1/users/logout`, {
       method: 'POST',
       credentials: 'include',
-      // !!! nötig damit das Setzen des Refresh-Tokens auf null (im backend) übernommen wird
     })
 
     const data = await res.json()
@@ -21,44 +19,27 @@ const Navbar = () => {
     navigate('/')
   }
 
-  useEffect(() => {
-    let currUrl = window.location.href
-    if (currUrl.includes('feed')) {
-      setPageUrl('feed')
-    } else if (currUrl.includes('my-profile')) {
-      setPageUrl('profile')
-    } else if (currUrl.includes('discover')) {
-      setPageUrl('discover')
-    }
-  }, [pageUrl])
-
   return (
-    <nav className="flex items-center justify-around pt-3 bg-slate-200 text-slate-600">
+    <NavLink className="flex items-center justify-around pt-3 bg-slate-200 text-slate-600">
       <div className="">
         <Logo />
       </div>
-      <div className="flex gap-3">
-        <Link
-          className={
-            pageUrl === 'discover' ? ' underline underline-offset-4 ' : ''
-          }
+      <div className="flex gap-5">
+        <NavLink
+          className="hover:scale-105  aria-[current=page]:font-bold"
           to={`/discover`}>
           Discover
-        </Link>
-        <Link
-          className={
-            pageUrl === 'feed' ? ' underline underline-offset-4 ' : ''
-          }
+        </NavLink>
+        <NavLink
+          className=" hover:scale-105 aria-[current=page]:font-bold"
           to={`/feed`}>
           Feed
-        </Link>
-        <Link
-          className={
-            pageUrl === 'profile' ? ' underline underline-offset-4 ' : ''
-          }
+        </NavLink>
+        <NavLink
+          className="hover:scale-105 aria-[current=page]:font-bold"
           to={`/my-profile`}>
           My Profile
-        </Link>
+        </NavLink>
       </div>
       <div className="">
         <button
@@ -67,7 +48,7 @@ const Navbar = () => {
           Logout
         </button>
       </div>
-    </nav>
+    </NavLink>
   )
 }
 

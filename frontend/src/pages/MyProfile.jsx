@@ -28,7 +28,7 @@ const MyProfile = () => {
         <h2 className="text-left ml-6 mt-4 text-lg">Write Post</h2>
         <WriteTweet token={token} />
         <h2 className="text-left ml-6 text-lg">Stats</h2>
-        <h2 className="text-left ml-6 text-lg">Post</h2>
+        <h2 className="text-left ml-6 text-lg">Posts</h2>
         {user.tweets.tweets?.map((user, index) => (
           <TweetBox key={index} tweet={user} />
         ))}
