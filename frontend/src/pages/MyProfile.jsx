@@ -2,13 +2,13 @@ import Navbar from '../components/Navbar'
 import SendVerification from '../components/SendVerification'
 import { useContext, useEffect, useState } from 'react'
 import { backendUrl } from '../api/api'
-import TweetBox from '../components/TweetBox'
 import WriteTweet from '../components/WriteTweet'
 import {
   RefreshContext,
   TokenContext,
   UserContext,
 } from '../../context/Context'
+import TweetBoxProfile from '../components/TweetBoxProfile'
 
 const MyProfile = () => {
   const [errorMessage, setErrorMessage] = useState('')
@@ -29,8 +29,8 @@ const MyProfile = () => {
         <WriteTweet token={token} />
         <h2 className="text-left ml-6 text-lg">Stats</h2>
         <h2 className="text-left ml-6 text-lg">Posts</h2>
-        {user.tweets.tweets?.map((user, index) => (
-          <TweetBox key={index} tweet={user} />
+        {user.tweets.tweetsWithComments?.map((tweet, index) => (
+          <TweetBoxProfile key={index} tweet={tweet} user={user} />
         ))}
       </div>
     </div>

@@ -37,6 +37,8 @@ const Feed = () => {
     fetchTweetsFeed()
   }, [token])
 
+  console.log(tweetsFeed)
+
   return (
     <div className="min-h-screen">
       <Navbar />
