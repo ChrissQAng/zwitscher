@@ -1,25 +1,22 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import './App.css'
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import "./App.css";
 
-import Register from './pages/Register'
-import HomeLogin from './pages/HomeLogin'
-import { useEffect, useState } from 'react'
-import MyProfile from './pages/MyProfile'
-import AuthRequired from './components/AuthRequired'
+import Register from "./pages/Register";
+import HomeLogin from "./pages/HomeLogin";
+import { useEffect, useState } from "react";
+import MyProfile from "./pages/MyProfile";
+import AuthRequired from "./components/AuthRequired";
 
-import VerifyEmail from './pages/VerifyEmail'
-import Feed from './pages/Feed'
-import {
-  RefreshContext,
-  TokenContext,
-  UserContext,
-} from '../context/Context'
-import Discover from './pages/Discover'
+import VerifyEmail from "./pages/VerifyEmail";
+import Feed from "./pages/Feed";
+import { RefreshContext, TokenContext, UserContext } from "../context/Context";
+import Discover from "./pages/Discover";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
-  const [refresh, setRefresh] = useState(false)
-  const [token, setToken] = useState() // aktuell verwendete accessToken
-  const [user, setUser] = useState()
+  const [refresh, setRefresh] = useState(false);
+  const [token, setToken] = useState(); // aktuell verwendete accessToken
+  const [user, setUser] = useState();
 
   return (
     <RefreshContext.Provider value={{ refresh, setRefresh }}>
@@ -68,6 +65,14 @@ function App() {
                       </AuthRequired>
                     }
                   />
+                  <Route
+                    path="/userprofile/:userId"
+                    element={
+                      <AuthRequired>
+                        <UserProfile />
+                      </AuthRequired>
+                    }
+                  />
                 </Routes>
               </BrowserRouter>
             </div>
@@ -75,7 +80,7 @@ function App() {
         </UserContext.Provider>
       </TokenContext.Provider>
     </RefreshContext.Provider>
-  )
+  );
 }
 
-export default App
+export default App;

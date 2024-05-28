@@ -14,7 +14,7 @@ import { Tweet } from "../models/tweet.js";
 export async function getTrendingTweets() {
   const recentTweets = await Tweet.find({
     createdAt: { $gte: Date.now() - 7 * 24 * 60 * 60 * 1000 },
-  });
+  }).populate({ path: "userId", select: "_id firstName lastName" });
 
   const commentsCount = await Promise.all(
     recentTweets.map((tweet) => countCommentsOfTweet(tweet))
