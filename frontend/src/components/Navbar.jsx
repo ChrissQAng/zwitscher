@@ -20,8 +20,8 @@ const Navbar = () => {
   }
 
   return (
-    <NavLink className="flex items-center justify-around pt-3 bg-slate-200 text-slate-600">
-      <div className="">
+    <nav className="flex items-center justify-around pt-3 bg-slate-200 text-slate-600">
+      <div className=" hover:animate-spin">
         <Logo />
       </div>
       <div className="flex gap-5">
@@ -48,7 +48,7 @@ const Navbar = () => {
           Logout
         </button>
       </div>
-    </NavLink>
+    </nav>
   )
 }
 

@@ -2,6 +2,7 @@ import { User } from '../models/user.js'
 import { createToken } from '../utils/createToken.js'
 import { userToView } from './help.js'
 import { Tweet } from '../models/tweet.js'
+import { Comment } from '../models/comment.js'
 
 // refreshToken -> refreshToken() -> newAccessToken
 export async function refreshAccessToken(authenticatedUserId) {
