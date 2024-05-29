@@ -23,10 +23,10 @@ const TweetBox = ({ tweet }) => {
   }
 
   return (
-    <div className=" mx-6 my-2 p-2 border-t border-slate-300">
+    <div className=" mx-6 p-2 border-t border-slate-300">
       <div className="flex items-center justify-between mb-2">
         <Link to={`/userprofile/${tweet.userId._id}`}>
-          <p className="text-slate-600 text-xs hover:text-slate-900">
+          <p className="text-slate-600 text-xs hover:text-slate-900 font-bold">
             {tweet.userId.firstName} {tweet.userId.lastName}
           </p>
         </Link>
@@ -37,6 +37,11 @@ const TweetBox = ({ tweet }) => {
       <p className="bg-slate-300 text-slate-600 p-2 rounded-lg text-sm font-thin">
         {tweet.text}
       </p>
+      <div>
+        <p className="text-slate-600 text-xs mt-2 hover:text-slate-900">
+          {tweet.comments.length} Comments
+        </p>
+      </div>
     </div>
   )
 }

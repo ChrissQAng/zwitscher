@@ -37,16 +37,17 @@ const Feed = () => {
     fetchTweetsFeed()
   }, [token])
 
-  console.log(tweetsFeed)
-
   return (
     <div className="min-h-screen">
       <Navbar />
       <div className=" flex flex-col">
-        <h2 className="text-left ml-6 mt-4 text-lg text-slate-600">
+        <h2 className="text-left ml-6 mt-2 text-lg text-slate-600">
           Write Tweet
         </h2>
         <WriteTweet />
+        <h2 className="text-left ml-6 mt-2 text-lg text-slate-600">
+          Feed
+        </h2>
         <div className="mt-4 mb-8">
           {tweetsFeed.map(tweet => (
             <TweetBox key={tweet._id} tweet={tweet} />

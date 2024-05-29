@@ -59,7 +59,6 @@ const AuthRequired = ({ children }) => {
           if (!data.result) navigate('/login')
 
           const data = await response.json()
-          console.log({ data })
           setToken(data.result.newAccessToken)
           doSilentRefresh(data.result.newAccessToken) // rekursion (eine funktion sich selbst aufruft)
         } catch (err) {

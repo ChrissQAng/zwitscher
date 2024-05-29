@@ -8,34 +8,55 @@ Hinweis: Wenn ein Tweet älter als 1ne Woche ist, dann wird er ignoriert (egal w
 
 */
 
-import { Comment } from "../models/comment.js";
-import { Tweet } from "../models/tweet.js";
+import { Comment } from '../models/comment.js'
+import { Tweet } from '../models/tweet.js'
 
 export async function getTrendingTweets() {
   const recentTweets = await Tweet.find({
     createdAt: { $gte: Date.now() - 7 * 24 * 60 * 60 * 1000 },
-  }).populate({ path: "userId", select: "_id firstName lastName" });
+  }).populate({ path: 'userId', select: '_id firstName lastName' })
 
   const commentsCount = await Promise.all(
-    recentTweets.map((tweet) => countCommentsOfTweet(tweet))
-  );
+    recentTweets.map(tweet => countCommentsOfTweet(tweet)),
+  )
 
   const trendingTweets = recentTweets
     .map((tweet, tweetIndex) => ({
       ...tweet.toObject(),
-      score: commentsCount[tweetIndex] / getLifeSpanInHours(tweet.createdAt),
+      score:
+        commentsCount[tweetIndex] / getLifeSpanInHours(tweet.createdAt),
     }))
     .sort((t1, t2) => t2.score - t1.score)
-    .slice(0, 30);
+    .slice(0, 30)
 
-  return trendingTweets;
+  const tweetIds = trendingTweets.map(doc => {
+    return doc._id
+  })
+
+  const comments = await Comment.find({ tweetId: { $in: tweetIds } })
+    .populate({
+      path: 'userId',
+      select: '_id firstName lastName',
+    })
+    .sort({ createdAt: -1 })
+
+  const tweetsWithComments = trendingTweets.map(tweet => ({
+    ...tweet,
+    comments: comments.filter(
+      comment => comment.tweetId.toString() === tweet._id.toString(),
+    ),
+  }))
+
+  console.log('-------', tweetsWithComments)
+
+  return tweetsWithComments
 }
 
 function getLifeSpanInHours(createdAt) {
-  const ageMs = Date.now() - new Date(createdAt).getTime();
-  return ageMs / 1000 / 60 / 60;
+  const ageMs = Date.now() - new Date(createdAt).getTime()
+  return ageMs / 1000 / 60 / 60
 }
 
 async function countCommentsOfTweet(tweet) {
-  return Comment.find({ tweetId: tweet._id }, { _id: 1 }).countDocuments();
+  return Comment.find({ tweetId: tweet._id }, { _id: 1 }).countDocuments()
 }

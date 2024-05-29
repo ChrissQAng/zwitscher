@@ -18,17 +18,19 @@ const MyProfile = () => {
   const { user } = useContext(UserContext)
   const { token } = useContext(TokenContext)
 
-  console.log(user)
-
   return (
     <div className="min-h-screen text-slate-600">
       <Navbar />
       {user.user.isEmailVerified ? '' : <SendVerification token={token} />}
-      <div className=" flex flex-col gap-2">
-        <h2 className="text-left ml-6 mt-4 text-lg">Write Post</h2>
+      <div className=" flex flex-col">
+        <h2 className="text-left ml-6 mt-2 text-lg">Write Post</h2>
         <WriteTweet token={token} />
-        <h2 className="text-left ml-6 text-lg">Stats</h2>
-        <h2 className="text-left ml-6 text-lg">Posts</h2>
+        <h2 className="text-left ml-6 mt-2 text-lg text-slate-600">
+          Stats
+        </h2>
+        <h2 className="text-left ml-6 mt-2 text-lg text-slate-600">
+          Posts
+        </h2>
         {user.tweets.tweetsWithComments?.map((tweet, index) => (
           <TweetBoxProfile key={index} tweet={tweet} user={user} />
         ))}
