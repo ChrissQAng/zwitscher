@@ -1,17 +1,20 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { backendUrl } from '../api/api'
 import Logo from './Logo'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useEffect } from 'react'
+import { TokenContext } from '../../context/Context'
 
 const Navbar = () => {
   const navigate = useNavigate()
+  const { token } = useContext(TokenContext)
   const logoutUser = async e => {
     e.preventDefault()
 
     const res = await fetch(`${backendUrl}/api/v1/users/logout`, {
       method: 'POST',
       credentials: 'include',
+      headers: { authorization: `Bearer ${token}` },
     })
 
     const data = await res.json()

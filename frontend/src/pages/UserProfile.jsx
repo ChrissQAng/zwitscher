@@ -10,13 +10,12 @@ const UserProfile = () => {
   const { token } = useContext(TokenContext)
   const [errorMessage, setErrorMessage] = useState('')
   const [userTweet, setUserTweet] = useState([])
-  const [user, setUser] = useState({})
+  const [userParams, setUserParams] = useState({})
   const [stats, setStats] = useState({})
   const [isFollowedByLoggedInUser, setIsFollowedByLoggedInUser] =
     useState()
   const { userId } = useParams()
-
-  console.log(userId)
+  const { user } = useContext(UserContext)
 
   useEffect(() => {
     async function getUserInfos() {
@@ -31,7 +30,7 @@ const UserProfile = () => {
           return
         }
 
-        setUser(data.result.user)
+        setUserParams(data.result.user)
         setUserTweet(data.result.tweets)
         setStats(data.result.stats)
         setIsFollowedByLoggedInUser(data.result.isFollowedByLoggedInUser)
@@ -84,12 +83,16 @@ const UserProfile = () => {
     }
   }
 
+  console.log('user', userTweet)
+
   return (
     <div className="min-h-screen text-slate-600">
       <Navbar />
       <div className=" flex flex-col gap-2">
-        <h1 className="text-left ml-6 mt-6 text-lg font-bold">{`${user?.firstName} ${user?.lastName}`}</h1>
-        {isFollowedByLoggedInUser ?
+        <h1 className="text-left ml-6 mt-6 text-lg font-bold">{`${userParams?.firstName} ${userParams?.lastName}`}</h1>
+        {user.user._id === userId ?
+          ''
+        : isFollowedByLoggedInUser ?
           <button
             onClick={unfollowUser}
             className="ml-6  self-start text-slate-600 border-slate-600 bg-slate-200 border px-3 py-1 rounded-lg duration-300 hover:scale-105 hover:bg-slate-600 hover:text-slate-200">

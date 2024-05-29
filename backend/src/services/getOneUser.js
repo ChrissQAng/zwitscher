@@ -10,6 +10,10 @@ export async function getOneUser(userId, authenticatedUserId) {
   const tweets = await Tweet.find({ userId: userId }).sort({
     createdAt: -1,
   })
+  // .populate({
+  //   path: 'userId',
+  //   select: '_id firstName lastName',
+  // })
   const tweetIds = tweets.map(doc => doc.toObject()._id)
 
   const comments = await Comment.find({ tweetId: { $in: tweetIds } })

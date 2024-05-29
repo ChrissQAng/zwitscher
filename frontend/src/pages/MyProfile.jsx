@@ -8,15 +8,44 @@ import {
   TokenContext,
   UserContext,
 } from '../../context/Context'
-import TweetBoxProfile from '../components/TweetBoxProfile'
+import TweetBox from '../components/TweetBox'
 
 const MyProfile = () => {
   const [errorMessage, setErrorMessage] = useState('')
-  const [userInfo, setUserInfo] = useState('')
+  const [userFetch, setUserFetch] = useState('')
+  const [userTweet, setUserTweet] = useState([])
+  const [stats, setStats] = useState({})
   const { refresh, setRefresh } = useContext(RefreshContext)
-
   const { user } = useContext(UserContext)
   const { token } = useContext(TokenContext)
+
+  useEffect(() => {
+    async function getMyProfileInfos() {
+      try {
+        const res = await fetch(
+          `${backendUrl}/api/v1/users/${user.user._id}`,
+          {
+            headers: { authorization: `Bearer ${token}` },
+          },
+        )
+
+        const data = await res.json()
+        if (!data.result) {
+          setErrorMessage(data.message || 'Could not load trending tweets')
+          return
+        }
+
+        setUserFetch(data.result.user)
+        setUserTweet(data.result.tweets)
+        setStats(data.result.stats)
+
+        setErrorMessage('')
+      } catch (error) {
+        setErrorMessage('An error occurred while fetching trending tweets')
+      }
+    }
+    getMyProfileInfos()
+  }, [refresh])
 
   return (
     <div className="min-h-screen text-slate-600">
@@ -31,8 +60,8 @@ const MyProfile = () => {
         <h2 className="text-left ml-6 mt-2 text-lg text-slate-600">
           Posts
         </h2>
-        {user.tweets.tweetsWithComments?.map((tweet, index) => (
-          <TweetBoxProfile key={index} tweet={tweet} user={user} />
+        {userTweet?.map(tweet => (
+          <TweetBox key={tweet._id} tweet={tweet} />
         ))}
       </div>
     </div>
