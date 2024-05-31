@@ -27,7 +27,44 @@ async function deleteCommentCtrl(req, res) {
     res.status(500).json({ err, message: "Could not delete comment" });
   }
 }
+
+async function postLikeCommentCtrl(req, res) {
+  try {
+    const tweetId = req.body.tweetId;
+    const commentId = req.params.commentId;
+    const authenticatedUserId = req.authenticatedUserId;
+    const result = await CommentService.addLike(
+      authenticatedUserId,
+      tweetId,
+      commentId,
+    );
+    res.json({ result });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err, message: "Could not like comment" });
+  }
+}
+
+async function deleteCommentLikeCtrl(req, res) {
+  try {
+    const tweetId = req.body.tweetId;
+    const commentId = req.params.commentId;
+    const authenticatedUserId = req.authenticatedUserId;
+    const result = await CommentService.deleteLike(
+      authenticatedUserId,
+      tweetId,
+      commentId,
+    );
+    res.json({ result });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err, message: "Could not like of comment" });
+  }
+}
+
 export const CommentController = {
   postCommentCtrl,
   deleteCommentCtrl,
+  postLikeCommentCtrl,
+  deleteCommentLikeCtrl,
 };

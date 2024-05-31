@@ -10,4 +10,6 @@ export const tweetRouter = express
   .get("/trending", doJwtAuth, TweetController.getTrendingTweetsCtrl)
   .delete("/:tweetId", doJwtAuth, TweetController.deleteTweetCtrl)
   .get("/", doJwtAuth, TweetController.getAllTweetsCtrl)
-  .get("/:tweetId", doJwtAuth, TweetController.getOneTweetCtrl);
+  .get("/:tweetId", doJwtAuth, TweetController.getOneTweetCtrl)
+  .post("/:tweetId/like", doJwtAuth, TweetController.postLikeTweetCtrl)
+  .delete("/:tweetId/like", doJwtAuth, TweetController.deleteTweetLikeCtrl);

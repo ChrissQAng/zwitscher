@@ -1,17 +1,19 @@
-import { useContext, useEffect, useState } from 'react'
-import { UserContext } from '../../context/Context'
-import { Link } from 'react-router-dom'
-import CommentIcon from './CommentIcon'
-import ArrowUpIcon from './ArrowUpIcon'
+import { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../../context/Context';
+import { Link } from 'react-router-dom';
+import CommentIcon from './CommentIcon';
+import ArrowUpIcon from './ArrowUpIcon';
+import LikeButton from './LikeButton';
 
 const TweetBox = ({ tweet }) => {
-  const [pageUrl, setPageUrl] = useState('profile')
-  const [showComments, setShowComments] = useState(false)
+  const [pageUrl, setPageUrl] = useState('profile');
+  const [showComments, setShowComments] = useState(false);
 
-  const { user } = useContext(UserContext)
+
+  const { user } = useContext(UserContext);
 
   const convertDate = timestamp => {
-    const date = new Date(timestamp)
+    const date = new Date(timestamp);
     const finalDate =
       date.getDate() +
       ' ' +
@@ -21,9 +23,9 @@ const TweetBox = ({ tweet }) => {
       ' ' +
       date.getHours() +
       ':' +
-      date.getMinutes()
-    return finalDate
-  }
+      date.getMinutes();
+    return finalDate;
+  };
 
   return (
     <div className=" mx-6 p-2 border-t border-slate-300">
@@ -32,7 +34,7 @@ const TweetBox = ({ tweet }) => {
           to={
             user.user._id === tweet.userId._id ?
               `/my-profile`
-            : `/userprofile/${tweet.userId._id}`
+              : `/userprofile/${tweet.userId._id}`
           }>
           <p className="text-slate-600 text-xs hover:text-slate-900 font-bold">
             {tweet.userId.firstName} {tweet.userId.lastName}
@@ -51,12 +53,12 @@ const TweetBox = ({ tweet }) => {
             onClick={() =>
               tweet.comments.length === 0 ?
                 ''
-              : setShowComments(!showComments)
+                : setShowComments(!showComments)
             }
             className={
               tweet.comments.length === 0 ?
                 'flex items-center mt-1 gap-2 pb-1 px-1 '
-              : 'flex items-center mt-1 gap-2 pb-1 px-1 cursor-pointer border hover:border-slate-400 rounded-lg'
+                : 'flex items-center mt-1 gap-2 pb-1 px-1 cursor-pointer border hover:border-slate-400 rounded-lg'
             }>
             <p className="text-slate-600 text-xs mt-2  ">
               {tweet.comments.length}
@@ -65,6 +67,7 @@ const TweetBox = ({ tweet }) => {
               <CommentIcon />
             </div>
           </div>
+          <LikeButton tweetId={tweet._id} isLikedByUser={tweet.isLikedByUser} />
         </div>
         {showComments ?
           <div className="overflow-hidden">
@@ -87,6 +90,7 @@ const TweetBox = ({ tweet }) => {
                   <p className=" text-slate-600 text-sm mt-2 ">
                     {comment.text}
                   </p>
+                  <LikeButton commentId={comment._id} tweetId={tweet._id} isLikedByUser={comment.isLikedByUser} />
                 </div>
               ))}
               <div
@@ -98,10 +102,10 @@ const TweetBox = ({ tweet }) => {
               </div>
             </div>
           </div>
-        : ''}
+          : ''}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TweetBox
+export default TweetBox;

@@ -71,6 +71,30 @@ async function getOneTweetCtrl(req, res) {
   }
 }
 
+async function postLikeTweetCtrl(req, res) {
+  try {
+    const tweetId = req.params.tweetId;
+    const authenticatedUserId = req.authenticatedUserId;
+    const result = await TweetService.addLike(authenticatedUserId, tweetId);
+    res.json({ result });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err, message: "Could not like tweet" });
+  }
+}
+
+async function deleteTweetLikeCtrl(req, res) {
+  try {
+    const tweetId = req.params.tweetId;
+    const authenticatedUserId = req.authenticatedUserId;
+    const result = await TweetService.deleteLike(authenticatedUserId, tweetId);
+    res.json({ result });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err, message: "Could not delete like of tweet" });
+  }
+}
+
 export const TweetController = {
   postTweetCtrl,
   deleteTweetCtrl,
@@ -78,4 +102,6 @@ export const TweetController = {
   getOneTweetCtrl,
   getFeedTweetsCtrl,
   getTrendingTweetsCtrl,
+  postLikeTweetCtrl,
+  deleteTweetLikeCtrl,
 };
