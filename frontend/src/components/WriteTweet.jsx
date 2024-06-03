@@ -1,40 +1,40 @@
-import { useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { backendUrl } from '../api/api'
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { backendUrl } from "../api/api";
 import {
   RefreshContext,
   TokenContext,
   UserContext,
-} from '../../context/Context'
+} from "../../context/Context";
 
 const WriteTweet = () => {
-  const [errorMessage, setErrorMessage] = useState('')
-  const [text, setText] = useState()
-  const { refresh, setRefresh } = useContext(RefreshContext)
-  const { user, setUser } = useContext(UserContext)
-  const { token, setToken } = useContext(TokenContext)
-  const navigate = useNavigate()
-  const postTweet = async e => {
-    e.preventDefault()
+  const [errorMessage, setErrorMessage] = useState("");
+  const [text, setText] = useState();
+  const { refresh, setRefresh } = useContext(RefreshContext);
+  const { user, setUser } = useContext(UserContext);
+  const { token, setToken } = useContext(TokenContext);
+  const navigate = useNavigate();
+  const postTweet = async (e) => {
+    e.preventDefault();
 
     const res = await fetch(`${backendUrl}/api/v1/tweets`, {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         authorization: `Bearer ${token}`,
       },
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({ text, userId: user._id }),
-    })
+    });
 
-    const data = await res.json()
+    const data = await res.json();
 
-    setRefresh(refresh => !refresh)
+    setRefresh((refresh) => !refresh);
 
     if (!data.result)
-      return setErrorMessage(data.message || 'Failed to write tweet')
+      return setErrorMessage(data.message || "Failed to write tweet");
 
-    navigate(`/dashboard/${id}`)
-  }
+    navigate(`/dashboard/${id}`);
+  };
 
   return (
     <>
@@ -45,26 +45,29 @@ const WriteTweet = () => {
           type="text"
           placeholder="Share something..."
           value={text}
-          onChange={e => setText(e.target.value)}
+          onChange={(e) => setText(e.target.value)}
         />
-        {user.user.isEmailVerified ?
+        {user.user.isEmailVerified ? (
           <button
             className="self-end text-sm border-slate-200 border px-2 py-1 rounded-lg duration-300 hover:scale-105 text-slate-200 hover:bg-slate-200 hover:text-slate-600"
-            onClick={postTweet}>
+            onClick={postTweet}
+          >
             Post
           </button>
-        : <div className="flex items-center justify-between">
+        ) : (
+          <div className="flex items-center justify-between">
             <p className="text-red-200">Please verify your account!</p>
             <button
               className="self-end text-sm border-slate-200 border px-2 py-1 rounded-lg duration-300 hover:scale-105 text-slate-200 hover:bg-slate-200 hover:text-slate-600 pointer-events-none "
-              onClick={postTweet}>
+              onClick={postTweet}
+            >
               Post
             </button>
           </div>
-        }
+        )}
       </form>
     </>
-  )
-}
+  );
+};
 
-export default WriteTweet
+export default WriteTweet;

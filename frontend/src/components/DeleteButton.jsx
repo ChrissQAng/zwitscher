@@ -1,9 +1,11 @@
 import { useContext } from "react";
-import { TokenContext } from "../../context/Context";
+import { RefreshContext, TokenContext } from "../../context/Context";
 import { backendUrl } from "../api/api";
 
 const DeleteButton = ({ tweetId }) => {
   const { token } = useContext(TokenContext);
+
+  const { refresh, setRefresh } = useContext(RefreshContext);
   const deleteTweet = async (e) => {
     e.preventDefault();
 
@@ -13,6 +15,7 @@ const DeleteButton = ({ tweetId }) => {
         method: "DELETE",
         // body: JSON.stringify({ tweetId }),
       });
+      setRefresh((refresh) => !refresh);
 
       const data = await res.json();
 

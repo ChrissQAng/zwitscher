@@ -3,11 +3,12 @@ import { Comment } from "../models/comment.js";
 
 export async function deleteTweet(tweetId, userIdLogin) {
   try {
-    // const foundTweet = await Tweet.findById(tweetId);
-    // console.log("+++++++", foundTweet.userId, "++", userIdLogin);
-    // if (userIdLogin !== foundTweet.userId) {
-    //   throw new Error("Users are not the same!");
-    // }
+    const foundTweet = await Tweet.findById(tweetId);
+    const foundTweetsToString = foundTweet.userId;
+    // console.log("+++++++", foundTweetTest.toString(), "++", userIdLogin);
+    if (userIdLogin !== foundTweetsToString.toString()) {
+      throw new Error("Users are not the same!");
+    }
     const foundTweetDelete = await Tweet.findByIdAndDelete(tweetId);
     if (!foundTweetDelete) {
       throw new Error("Tweet with this ID doesn't exist");
