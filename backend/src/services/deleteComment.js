@@ -1,10 +1,20 @@
 import { Comment } from "../models/comment.js";
-export async function deleteComment(commentId) {
+
+export async function deleteComment(commentId, userIdLogin) {
   try {
-    const foundCommentDelete = await Comment.findByIdAndDelete(commentId);
-    if (!foundCommentDelete) {
+    console.log("service", commentId);
+    const foundComment = await Comment.findById(commentId);
+    console.log("service CommentObject", foundComment);
+    const foundCommentToString = foundComment.userId;
+
+    if (!foundComment) {
       throw new Error("Comment with this ID doesn't exist");
     }
+    if (userIdLogin !== foundCommentToString.toString()) {
+      throw new Error("Comment is not written by this user");
+    }
+
+    const foundCommentDelete = await Comment.findByIdAndDelete(commentId);
     return foundCommentDelete;
   } catch (err) {
     throw new Error(err.message);

@@ -5,9 +5,9 @@ export async function deleteTweet(tweetId, userIdLogin) {
   try {
     const foundTweet = await Tweet.findById(tweetId);
     const foundTweetsToString = foundTweet.userId;
-    // console.log("+++++++", foundTweetTest.toString(), "++", userIdLogin);
+
     if (userIdLogin !== foundTweetsToString.toString()) {
-      throw new Error("Users are not the same!");
+      throw new Error("Tweet is not written by this user");
     }
     const foundTweetDelete = await Tweet.findByIdAndDelete(tweetId);
     if (!foundTweetDelete) {

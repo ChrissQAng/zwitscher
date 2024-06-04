@@ -20,7 +20,12 @@ async function deleteCommentCtrl(req, res) {
   try {
     const commentId = req.params.commentId;
 
-    const deletedComment = await CommentService.deleteComment(commentId);
+    const userIdLogin = req.authenticatedUserId;
+
+    const deletedComment = await CommentService.deleteComment(
+      commentId,
+      userIdLogin
+    );
     res.json(deletedComment);
   } catch (err) {
     console.log(err);
@@ -36,7 +41,7 @@ async function postLikeCommentCtrl(req, res) {
     const result = await CommentService.addLike(
       authenticatedUserId,
       tweetId,
-      commentId,
+      commentId
     );
     res.json({ result });
   } catch (err) {
@@ -53,7 +58,7 @@ async function deleteCommentLikeCtrl(req, res) {
     const result = await CommentService.deleteLike(
       authenticatedUserId,
       tweetId,
-      commentId,
+      commentId
     );
     res.json({ result });
   } catch (err) {

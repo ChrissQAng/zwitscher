@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import CommentIcon from "./CommentIcon";
 import ArrowUpIcon from "./ArrowUpIcon";
 import LikeButton from "./LikeButton";
-import DeleteButton from "./DeleteButton";
+
+import DeleteTweetButton from "./DeleteTweetButton";
+import DeleteCommentButton from "./DeleteCommentButton";
 
 const TweetBox = ({ tweet, showDeleteButton }) => {
   const [pageUrl, setPageUrl] = useState("profile");
@@ -67,7 +69,7 @@ const TweetBox = ({ tweet, showDeleteButton }) => {
           </div>
           <LikeButton tweetId={tweet._id} isLikedByUser={tweet.isLikedByUser} />
           <div className="">
-            {showDeleteButton ? <DeleteButton tweetId={tweet._id} /> : ""}
+            {showDeleteButton ? <DeleteTweetButton tweetId={tweet._id} /> : ""}
           </div>
         </div>
         {showComments ? (
@@ -96,6 +98,7 @@ const TweetBox = ({ tweet, showDeleteButton }) => {
                     tweetId={tweet._id}
                     isLikedByUser={comment.isLikedByUser}
                   />
+                  <DeleteCommentButton commentId={comment._id} />
                 </div>
               ))}
               <div

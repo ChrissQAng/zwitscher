@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { RefreshContext, TokenContext } from "../../context/Context";
 import { backendUrl } from "../api/api";
 
-const DeleteButton = ({ tweetId }) => {
+const DeleteTweetButton = ({ tweetId }) => {
   const { token } = useContext(TokenContext);
 
   const { refresh, setRefresh } = useContext(RefreshContext);
@@ -48,4 +48,4 @@ const DeleteButton = ({ tweetId }) => {
   );
 };
 
-export default DeleteButton;
+export default DeleteTweetButton;
