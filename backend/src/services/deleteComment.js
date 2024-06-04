@@ -2,9 +2,8 @@ import { Comment } from "../models/comment.js";
 
 export async function deleteComment(commentId, userIdLogin) {
   try {
-    console.log("service", commentId);
     const foundComment = await Comment.findById(commentId);
-    console.log("service CommentObject", foundComment);
+
     const foundCommentToString = foundComment.userId;
 
     if (!foundComment) {

@@ -3,8 +3,13 @@ import { backendUrl } from "../api/api";
 import Navbar from "../components/Navbar";
 import TweetBox from "../components/TweetBox";
 import { useParams } from "react-router-dom";
+
 import WriteTweet from "../components/WriteTweet";
-import { TokenContext, UserContext } from "../../context/Context";
+import {
+  TokenContext,
+  UserContext,
+  RefreshContext,
+} from "../../context/Context";
 
 const Feed = () => {
   const [tweetsFeed, setTweetsFeed] = useState([]);
@@ -12,6 +17,7 @@ const Feed = () => {
   const [post, setPost] = useState("followed");
   const { user } = useContext(UserContext);
   const { token } = useContext(TokenContext);
+  const { refresh, setRefresh } = useContext(RefreshContext);
 
   const showDeleteButton = false;
 
@@ -37,7 +43,7 @@ const Feed = () => {
       }
     }
     fetchTweetsFeed();
-  }, [token]);
+  }, [token, refresh]);
 
   return (
     <div className="min-h-screen">

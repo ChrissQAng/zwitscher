@@ -80,6 +80,9 @@ const TweetBox = ({ tweet, showDeleteButton }) => {
                   key={comment._id}
                   className=" mx-4 pb-2 border-b border-slate-400"
                 >
+                  <div>
+                    <p>COMMENTS</p>
+                  </div>
                   <div className=" flex justify-between items-center">
                     <Link to={`/userprofile/${comment.userId._id}`}>
                       <p className="text-slate-600 font-bold text-xs mt-2 hover:text-slate-900 cursor-pointer">

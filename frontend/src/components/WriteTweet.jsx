@@ -33,7 +33,7 @@ const WriteTweet = () => {
     if (!data.result)
       return setErrorMessage(data.message || "Failed to write tweet");
 
-    navigate(`/dashboard/${id}`);
+    navigate(`/my-profile`);
   };
 
   return (
